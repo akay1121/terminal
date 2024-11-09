@@ -1,0 +1,177 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Terminal Management Service
+    description: A basic Terminal management service for test
+    version: 1.0.0
+paths:
+    /terminal/{id}:
+        get:
+            tags:
+                - TerminalManagement
+            summary: Get a terminal information by its id
+            description: User a terminal id to get the terminal's information
+            operationId: TerminalManagement_GetTerminal
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/terminal.v1.Terminal'
+        put:
+            tags:
+                - TerminalManagement
+            summary: Update a terminal's status
+            description: The service would first try to find if there exists a specific terminal by its id,and if found, user's information is then updated.
+            operationId: TerminalManagement_UpdateTerminalStatus
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/terminal.v1.TerminalId'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+        post:
+            tags:
+                - TerminalManagement
+            summary: Add a terminal
+            description: The service would first try to find if there exists a specific terminal by its id,and if not exist, add a terminal.
+            operationId: TerminalManagement_AddTerminal
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/terminal.v1.TerminalId'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+        delete:
+            tags:
+                - TerminalManagement
+            summary: Delet a terminal
+            description: The service would first try to find if there exists a specific terminal by its id,and if  exist, delete a terminal.
+            operationId: TerminalManagement_DeleteTerminal
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/terminal.v1.TerminalId'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /terminalStatus/{id}:
+        get:
+            tags:
+                - TerminalManagement
+            summary: Get a terminalStatus by its id
+            description: User a terminal id to get the terminal's status and exceeding time
+            operationId: TerminalManagement_GetTerminalStatus
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/terminal.v1.TerminalStatus'
+components:
+    schemas:
+        terminal.v1.Terminal:
+            required:
+                - id
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Unique identifier for the user
+                timeout:
+                    type: integer
+                    description: the value of timeout
+                    format: int32
+                status:
+                    type: string
+                    description: terminal's status online or offline
+                projId:
+                    type: string
+                    description: The identifier of the project to which the terminal belongs
+                desc:
+                    type: string
+                    description: An optional description of the terminal
+                deleted:
+                    type: boolean
+                    description: Whether it has been deleted
+                createTime:
+                    type: string
+                    description: create_ime
+                    format: date-time
+                lastUpdate:
+                    type: string
+                    description: newest update time
+                    format: date-time
+        terminal.v1.TerminalId:
+            required:
+                - id
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Unique identifier for each Terminal
+            description: TerminalId is a global unique identifier for each terminal
+        terminal.v1.TerminalStatus:
+            type: object
+            properties:
+                status:
+                    type: string
+                    description: terminal's status online or offline
+                timeout:
+                    type: integer
+                    description: the value of timeout
+                    format: int32
+                lastUpdated:
+                    type: string
+                    description: last updated time
+                    format: date-time
+                id:
+                    type: string
+                    description: Unique identifier for each Terminal
+tags:
+    - name: TerminalManagement
